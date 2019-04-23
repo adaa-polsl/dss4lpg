@@ -1,0 +1,89 @@
+---
+title: "Results of short-term prediction for incremental, temperature-based models"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+params:
+  data_path: "../../data/datasets/"
+  features_path: "../../data/features/"
+  pattern_datasets: "*.csv"
+  pattern_features: "*.csv"
+  ntrees: 100
+  min_num_days: 50
+---
+
+```{r setup, include=FALSE}
+library(lpg.short.pred)
+set.seed(5090)
+knitr::opts_chunk$set(echo = FALSE)
+options(knitr.table.format = "html")
+
+ntrees <- params$ntrees %>% as.integer()
+min_num_days <- params$min_num_days %>% as.integer()
+
+# Function which will be used for reading files with data
+read_file_function <- readr::read_csv
+```
+
+The following report presents the results of a short-term forecast for the incremental models.
+To build a model, a minimum of `r min_num_days` of data days is required. 
+If the data from the first 2 months do not have this minimum amount of data, the first training set is created on the basis of 3 months. 
+
+The model is retrained monthly in an incremental way. For example, the first model is based on January and February data, tested on March data. The second model is based on January, February and March data and is evaluated on April data, etc. The first model is tested on March data.
+
+The model is created based on the `gradient boosting` algorithm using `r ntrees` trees.
+
+# Feature engineering
+
+The following characteristics have been defined for each data record:
+
+* mean consumption of LPG from 3, 5, 7 previous days
+* change in average gas consumption over 3 and 5 days and 3 and 7 days
+* max temperature during the day
+* min temperature during the day
+* mean temperature during the day
+* median temperature during the day
+* temperature range during the day
+* "increments" (relative) of consumption between the current and the previous day; current - two previous days; ...; current - 10 previous days.
+* same with relative "increments" max, min, avg temperature between the previous days.
+
+Example - first 5 lines with these attributes:
+
+```{r message=FALSE, warning=FALSE}
+library(DT)
+example_file <- paste0(params$features_path,
+                       list.files(path = params$features_path, pattern = params$pattern_features)[1])
+
+example_df <- read_file_function(file = example_file) %>% head(n = 5)
+
+datatable(example_df, 
+          options = list(pageLength = 5,
+                         scrollX = TRUE, 
+                         dom = 't'))
+```
+
+# Results for each dataset
+
+The tables show **means squared error** for each horizon (from 1 to 7 days ahead) and for each iteration of the model.
+
+```{r datasets, echo=FALSE, include=FALSE, results="asis"}
+results_all_datasets <- gbm_for_each_dataset(dataset_path = params$data_path,
+                                             feature_path = params$features_path,
+                                             pattern_datasets = params$pattern_datasets,
+                                             pattern_features = params$pattern_features,
+                                             read_file_function = read_file_function,
+                                             ntrees = ntrees,
+                                             min_num_days = min_num_days)
+# Add part of report for every dataset
+out <- NULL
+for(i in 1:length(results_all_datasets)) {
+  r <- results_all_datasets[[i]]
+  name <- names(results_all_datasets)[i]
+  out <- c(out, knitr::knit_child("gbm_report_part.Rmd"))
+}
+```
+
+```{r, echo=FALSE, results="asis"}
+cat(paste(out, collapse = '\n'))
+```

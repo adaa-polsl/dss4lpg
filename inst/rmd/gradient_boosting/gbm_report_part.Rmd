@@ -1,0 +1,26 @@
+## Dataset `r name`
+
+### Results obtained in each iteration
+
+Each iteration is another model.
+
+```{r}
+DT::datatable(r) %>% DT::formatRound(columns = 1:ncol(r), digits = 6)
+```
+
+### Average value for each horizon
+
+```{r}
+sapply(r, mean, na.rm = TRUE) %>% naive_models_tables
+```
+
+### Charts of error's change for subsequent iterations
+
+```{r}
+library(reshape2)
+library(ggplot2)
+r_d <- r
+r_d$iteration <- 1:nrow(r)
+d <- melt(r_d, id.vars = "iteration")
+ggplot(d, aes(iteration, value)) + facet_wrap(~ variable, scales = "free") + geom_line()
+```
