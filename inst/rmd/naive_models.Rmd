@@ -1,0 +1,73 @@
+---
+title: "Trivial models for short-term LPG forecasting"
+output: 
+  html_document:
+    toc: true
+    toc_float: true
+params:
+  data_path: "./data/datasets/"
+  pattern_datasets: "*.csv"
+---
+
+```{r setup, include=FALSE}
+library(lpg.short.pred)
+knitr::opts_chunk$set(echo = FALSE)
+options(knitr.table.format = "html")
+
+# Function which will be used for reading files with data
+read_file_function <- readr::read_csv
+```
+
+This report presents prediction errors of different models for different horizons (from 1 to 7 days ahead).
+
+The specified error is **medium squared error**.
+
+The models used:
+
+* Forecast using the last value of consumption - that is, having the current value of consumption, we forecast that such a value of consumption will also be in the next 7 days.
+* Forecast using average consumption over the last 7 days.
+* Forecast using median consumption over the last 7 days.
+* Linear regression on the last 7 days of consumption, where the y-axis is consumption and the x-axis is index of the day.
+* Linear regression on the last 7 days, where the y-axis is consumption and x-axis is temperature from preceding days. These models used the forecast temperature.
+
+Green indicates the model error that has reached the lowest value for the horizon.
+
+```{r generate_data, message=FALSE}
+r <- naive_models_report(path = params$data_path,
+                         pattern = params$pattern_datasets,
+                         read_file_function = read_file_function)
+```
+
+```{r datasets, echo=FALSE, include=FALSE, results="asis"}
+out <- NULL
+for(res in r$datasets_models_res) {
+  out <- c(out, knitr::knit_child("naive_models_part.Rmd"))
+}
+```
+
+```{r, echo=FALSE, results="asis"}
+cat(paste(out, collapse = '\n'))
+```
+
+# Summary of all  datasets
+
+The following are the average error values.
+
+```{r summary}
+naive_models_summary(r$summary)
+```
+
+# Summary for each month
+
+```{r summary each month, echo=FALSE, include=FALSE, results="asis"}
+months_sections <- NULL
+for(i in 1:length(r$summary_each_month)) {
+  res <- r$summary_each_month[[i]]
+  month_name <- names(r$summary_each_month)[i]
+  months_sections <- c(months_sections, knitr::knit_child("month_summary.Rmd"))
+}
+```
+
+```{r, echo=FALSE, results="asis"}
+cat(paste(months_sections, collapse = '\n'))
+```

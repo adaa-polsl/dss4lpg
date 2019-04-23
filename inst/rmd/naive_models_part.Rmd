@@ -1,0 +1,22 @@
+# Dataset: `r res$file`
+
+## Consumption chart
+
+```{r}
+res$consumption_plot
+```
+
+A number of rows: **`r res$nrow`**.
+
+A number of rows for which linear regression model using consumption and temperture was used:
+
+```{r}
+naive_models_tables(res$dataset_results$consumption_predtemp_model$not_na_values)
+```
+
+## Summary for the dataset
+
+```{r}
+tbl <- summary_of_models(list(res$dataset_results))
+naive_models_summary(tbl)
+```

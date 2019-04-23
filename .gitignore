@@ -1,0 +1,4 @@
+*.Rhistory
+*.rds
+.RData
+*.html

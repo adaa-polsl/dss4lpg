@@ -1,0 +1,5 @@
+## `r month_name`
+
+```{r}
+naive_models_summary(res)
+```

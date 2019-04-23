@@ -1,0 +1,27 @@
+Package: lpg.short.pred
+Type: Package
+Title: Short prediction of LPG consumption
+Version: 0.1.0
+Date: 2019-04-12
+Authors@R: c(
+  person("Joanna", "Henzel", role=c("aut", "cre"), email="joanna.henzel@protonmial.com")
+  )
+Description: Gives the ability to perform predictions of LPG consumption. 
+    It can be used to generate reports with evaluations of different methods of 
+    predictions such as trivial last, trivial mean, trivial median and 
+    temperature based model.
+License: MIT
+Encoding: UTF-8
+Depends:
+  dplyr
+Imports:
+  DT,
+  gbm,
+  ggplot2,
+  kableExtra,
+  knitr,
+  lubridate,
+  mice,
+  readr
+LazyData: true
+RoxygenNote: 6.1.0
