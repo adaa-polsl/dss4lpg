@@ -16,11 +16,11 @@ Open RStudio. Go to `File -> Open Project` and go to the directory where your cl
 
 Open `Build - > Install and Restart`. Package `lpg.short.pred` should be then installed. In case of error with missing dependencies install them and repeat this action.
 
-## Generate reports with evaluation of predictions
+## Generate reports with the evaluation of predictions
 
-Generatng reports with evaluation of models' predictions can be done by sourcing R scripts:
+Generating reports with the evaluation of models' predictions can be done by running R functions:
 
-* Trivial models - `./scripts/generate_naive_models_report.R`
-* Temperature based model - `./scripts/generate_gradient_boosting_report.R`
+* Trivial models - `lpg.short.pred::generate_naive_models_report()`
+* Temperature based model - `lpg.short.pred::generate_gradient_boosting_report()`
 
-In these scripts, you can adjust your parameters for example path where to save generated HTML reports.
+Calling these functions with default arguments generates reports using datasets delivered with this package. You can find them in the directory `inst\extdata`.
