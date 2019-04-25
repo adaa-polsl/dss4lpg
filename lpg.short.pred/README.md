@@ -13,7 +13,7 @@ You can install the latest version of this package using `devtools` package:
 
 ```r
 library(devtools)
-devtools::install_github("adaa-polsl/lpg.short.pred")
+devtools::install_github("adaa-polsl/dss4lpg/lpg.short.pred")
 library(lpg.short.pred)
 ```
 
