@@ -18,17 +18,17 @@ options(knitr.table.format = "html")
 read_file_function <- readr::read_csv
 ```
 
-This report presents prediction errors of different models for different horizons (from 1 to 7 days ahead).
+This report presents the prediction errors of different models for different horizons (from 1 to 7 days ahead).
 
-The specified error is **medium squared error**.
+The specified error is **a medium squared error**.
 
 The models used:
 
 * Forecast using the last value of consumption - that is, having the current value of consumption, we forecast that such a value of consumption will also be in the next 7 days.
 * Forecast using average consumption over the last 7 days.
 * Forecast using median consumption over the last 7 days.
-* Linear regression on the last 7 days of consumption, where the y-axis is consumption and the x-axis is index of the day.
-* Linear regression on the last 7 days, where the y-axis is consumption and x-axis is temperature from preceding days. These models used the forecast temperature.
+* Linear regression on the last 7 days of consumption, where the y-axis is consumption and the x-axis is an index of the day.
+* Linear regression on the last 7 days, where the y-axis is consumption and x-axis is the temperature from preceding days. These models used the forecast temperature.
 
 Green indicates the model error that has reached the lowest value for the horizon.
 

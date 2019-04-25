@@ -27,7 +27,7 @@ read_file_function <- readr::read_csv
 ```
 
 The following report presents the results of a short-term forecast for the incremental models.
-To build a model, a minimum of `r min_num_days` of data days is required. 
+To build a model, a minimum of `r min_num_days` data days is required.
 If the data from the first 2 months do not have this minimum amount of data, the first training set is created on the basis of 3 months. 
 
 The model is retrained monthly in an incremental way. For example, the first model is based on January and February data, tested on March data. The second model is based on January, February and March data and is evaluated on April data, etc. The first model is tested on March data.
@@ -65,7 +65,7 @@ datatable(example_df,
 
 # Results for each dataset
 
-The tables show **means squared error** for each horizon (from 1 to 7 days ahead) and for each iteration of the model.
+The tables show **mean squared error** for each horizon (from 1 to 7 days ahead) and for each iteration of the model.
 
 ```{r datasets, echo=FALSE, include=FALSE, results="asis"}
 results_all_datasets <- gbm_for_each_dataset(dataset_path = params$data_path,

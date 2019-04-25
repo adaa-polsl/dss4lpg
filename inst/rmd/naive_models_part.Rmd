@@ -8,7 +8,7 @@ res$consumption_plot
 
 A number of rows: **`r res$nrow`**.
 
-A number of rows for which linear regression model using consumption and temperture was used:
+A number of rows for which linear regression model using consumption and temperature was used:
 
 ```{r}
 naive_models_tables(res$dataset_results$consumption_predtemp_model$not_na_values)
