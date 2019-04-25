@@ -1,7 +1,7 @@
 Package: lpg.short.pred
 Type: Package
 Title: Short prediction of LPG consumption
-Version: 0.1.0
+Version: 0.1.1
 Date: 2019-04-12
 Authors@R: c(
   person("Joanna", "Henzel", role=c("aut", "cre"), email="joanna.henzel@protonmial.com")
