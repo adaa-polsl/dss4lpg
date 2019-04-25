@@ -2,3 +2,4 @@
 *.rds
 .RData
 *.html
+.Rproj.user
